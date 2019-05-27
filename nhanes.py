@@ -145,7 +145,7 @@ class Dataset():
     def load_arthritis(self, opts=None):
         columns = [
             # TARGET: systolic BP average
-            FeatureColumn('Questionnaire', 'MCQ160A', 
+            FeatureColumn('Questionnaire', 'MCQ220', 
                                     None, None),
             # Gender
             FeatureColumn('Demographics', 'RIAGENDR', 
