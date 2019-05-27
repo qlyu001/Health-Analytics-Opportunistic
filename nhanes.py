@@ -222,9 +222,9 @@ class Dataset():
         ]
         nhanes_dataset = NHANES(self.data_path, columns)
         df = nhanes_dataset.process()
-        fe_cols = df.drop(['MCQ160A'], axis=1)
+        fe_cols = df.drop(['MCQ220'], axis=1)
         features = fe_cols.values
-        target = df['MCQ160A'].values
+        target = df['MCQ220'].values
         # remove nan labeled samples
         inds_valid = ~ np.isnan(target)
         features = features[inds_valid]
