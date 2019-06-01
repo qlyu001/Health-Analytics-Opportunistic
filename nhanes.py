@@ -146,79 +146,310 @@ class Dataset():
         columns = [
             # TARGET: systolic BP average
             FeatureColumn('Questionnaire', 'MCQ220', 
-                                    None, None),
-            # Gender
-            FeatureColumn('Demographics', 'RIAGENDR', 
-                                 preproc_real, None),
-            # Age at time of screening
-            FeatureColumn('Demographics', 'RIDAGEYR', 
-                                 preproc_real, None),
-            FeatureColumn('Demographics', 'RIDRETH3', 
-                                 preproc_onehot, None),
-            # Race/ethnicity
-            FeatureColumn('Demographics', 'RIDRETH1', 
-                                 preproc_onehot, None),
-            # Annual household income
-            FeatureColumn('Demographics', 'INDHHINC', 
-                                 preproc_real, {'cutoff':11}),
-            # Education level
-            FeatureColumn('Demographics', 'DMDEDUC2', 
-                                 preproc_real, {'cutoff':5}),
-            # BMI
-            FeatureColumn('Examination', 'BMXBMI', 
-                                 preproc_real, None),
-            # Waist
-            FeatureColumn('Examination', 'BMXWAIST', 
-                                 preproc_real, None),
-            # Height
-            FeatureColumn('Examination', 'BMXHT', 
-                                 preproc_real, None),
-            # Upper Leg Length
-            FeatureColumn('Examination', 'BMXLEG', 
-                                 preproc_real, None),
-            # Weight
-            FeatureColumn('Examination', 'BMXWT', 
-                                 preproc_real, None),
-            # Total Cholesterol
-            FeatureColumn('Laboratory', 'LBXTC', 
-                                 preproc_real, None),
-            # Alcohol consumption
+                                    None, None), 
+            #Laboratory, HPV Vaginal swab- high risk
+            FeatureColumn('Laboratory', 'LBXHP2C',
+                                            preproc_onehot, {'cutoff':2}),
+            #Laboratory, HPV Vaginal swab- HPV type 16 and 18 for cervical cancer
+            FeatureColumn('Laboratory', 'LBDR16',
+                                            preproc_onehot, {'cutoff':2}),
+            FeatureColumn('Laboratory', 'LBDR18',
+                                            preproc_onehot, {'cutoff':2}),
+            #Laboratory, Hepatitus B and C -liver cancer risk
+            FeatureColumn('Laboratory', 'LBXHBC',
+                                            preproc_onehot, {'cutoff':2}),
+            FeatureColumn('Laboratory', 'LBXHCR',
+                                            preproc_onehot, {'cutoff':2}),
+            #Laboratory, Hemoglobin
+            FeatureColumn('Laboratory', 'LBXHGB',
+                                            preproc_real, {'cutoff':19.2}),
+            #Laboratory, White blood cell count
+            FeatureColumn('Laboratory', 'LBXWBCSI',
+                                            preproc_real, {'cutoff':117.2}),
+            #Laboratory, Phthalate
+            FeatureColumn('Laboratory', 'URXCNP',
+                                            preproc_real, {'cutoff':246}),
+            #Laboratory, Platelet count
+            FeatureColumn('Laboratory', 'LBXPLTSI',
+                                            preproc_real, {'cutoff':777}),
+            #Laboratory, Albumin, urine (ug/mL)
+            FeatureColumn('Laboratory', 'URXUMA',
+                                            preproc_real, {'cutoff':9730}),
+            #Laboratory, Alanine aminotransferase
+            FeatureColumn('Laboratory', 'LBXSATSI',
+                                            preproc_real, {'cutoff':319}),
+            #Laboratory, Aspartate aminotransferase
+            FeatureColumn('Laboratory', 'LBXSASSI',
+                                            preproc_real, {'cutoff':832}),
+            #Laboratory, Alkaline phosphatase
+            FeatureColumn('Laboratory', 'LBXSAPSI',
+                                            preproc_real, {'cutoff':740}),
+            #Laboratory, Bicarbonate
+            FeatureColumn('Laboratory', 'LBXSC3SI',
+                                            preproc_real, {'cutoff':34}),
+            #Laboratory, Total Bilirubin
+            FeatureColumn('Laboratory', 'LBXSTB',
+                                            preproc_real, {'cutoff':3.5}),
+            #Laboratory, Blood lead
+            FeatureColumn('Laboratory', 'LBXBPB',
+                                            preproc_real, {'cutoff':23.51}),
+            #Laboratory, Blood mercury
+            FeatureColumn('Laboratory', 'LBXIHG',
+                                            preproc_real, {'cutoff':5.9}),
+            #Laboratory, Blood urea nitrogen
+            FeatureColumn('Laboratory', 'LBXSBU',
+                                            preproc_real, {'cutoff':96}),
+            #Laboratory, Chloride
+            FeatureColumn('Laboratory', 'LBXSCLSI',
+                                            preproc_real, {'cutoff':117}),
+            #Laboratory, Chlamydia
+            FeatureColumn('Laboratory', 'URXUCL',
+                                            preproc_onehot, {'cutoff':2}),
+            #Examination, Weight
+            FeatureColumn('Examination', 'BMXWT',
+                                            preproc_real, {'cutoff':198}),
+            #Examination, Waist Circumference
+            FeatureColumn('Examination', 'BMXWAIST',
+                                            preproc_real, {'cutoff':171}),
+            #Examination, BMI
+            FeatureColumn('Examination', 'BMXBMI',
+                                            preproc_real, {'cutoff':67.3}),
+            #Examination, Pulse irregular?
+            FeatureColumn('Examination', 'BPXPULS',
+                                            preproc_onehot, {'cutoff':2}),
+            #Examination, Systolic Blood Pressure
+            FeatureColumn('Examination', 'BPXSY1',
+                                            preproc_real, {'cutoff':236}),
+            #Examination, Diastolic Blood Pressure
+            FeatureColumn('Examination', 'BPXDI1',
+                                            preproc_real, {'cutoff':120}),
+            #Examination, Dental implant?
+            FeatureColumn('Examination', 'OHXIMP',
+                                            preproc_onehot, {'cutoff':2}),
+            #Examination, Gum Disease?
+            FeatureColumn('Examination', 'OHAROCGP',
+                                            preproc_onehot, {'cutoff':2}),
+            #Examination, Oral Hygiene
+            FeatureColumn('Examination', 'OHAROCOH',
+                                            preproc_onehot, {'cutoff':2}),
+            #Examination, Decayed teeth
+            FeatureColumn('Examination', 'OHAROCDT',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Age in years at screening
+            FeatureColumn('Demographics', 'RIDAGEYR',
+                                            preproc_real, {'cutoff':80}),
+            #Demographics, Race/Hispanic
+            FeatureColumn('Demographics', 'RIDRETH3',
+                                            preproc_real, {'cutoff':7}),
+            #Demographics, Served active duty in the armed forces
+            FeatureColumn('Demographics', 'DMQMILIZ',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Served in a foreign country
+            FeatureColumn('Demographics', 'DMQADFC',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Country of birth
+            FeatureColumn('Demographics', 'DMDBORN4',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Citizenship status
+            FeatureColumn('Demographics', 'DMDCITZN',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Length of time in the US
+            FeatureColumn('Demographics', 'DMDYRSUS',
+                                            preproc_real, {'cutoff':9}),
+            #Demographics, Education level, Youth 6-19
+            FeatureColumn('Demographics', 'DMDEDUC3',
+                                            preproc_real, {'cutoff':66}),
+            #Demographics, Education level, Adults 20+
+            FeatureColumn('Demographics', 'DMDEDUC2',
+                                            preproc_real, {'cutoff':5}),
+            #Demographics, Education level, Language at SP interview
+            FeatureColumn('Demographics', 'SIALANG',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Education level, Language at Family Interview
+            FeatureColumn('Demographics', 'FIALANG',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Total number of people in household
+            FeatureColumn('Demographics', 'DMDHHSIZ',
+                                            preproc_real, {'cutoff':7}),
+            #Demographics, Total number of children 5 years or younger in household
+            FeatureColumn('Demographics', 'DMDHHSZA',
+                                            preproc_real, {'cutoff':3}),
+            #Demographics, Total number of adults 60+ in household
+            FeatureColumn('Demographics', 'DMDHHSZE',
+                                            preproc_real, {'cutoff':3}),
+            #Demographics, Annual household income
+            FeatureColumn('Demographics', 'INDHHIN2',
+                                            preproc_real, {'cutoff':15}),
+            #Demographics, Annual family income
+            FeatureColumn('Demographics', 'INDFMIN2',
+                                            preproc_real, {'cutoff':15}),
+            #Demographics, Ratio of annual income to poverty
+            FeatureColumn('Demographics', 'INDFMPIR',
+                                            preproc_real, {'cutoff':5}),
+            #Questionnaire
+            #ALQ101 - Had at least 12 alcohol drinks/1 yr?
             FeatureColumn('Questionnaire', 'ALQ101', 
-                                 preproc_real, {'cutoff':2}),
+                                            preproc_onehot, {'cutoff':2}),
+
+            #ALQ110 - Had at least 12 alcohol drinks/lifetime?
+            FeatureColumn('Questionnaire', 'ALQ110', 
+                                            preproc_onehot, {'cutoff':2}),
+
+            #ALQ120Q - How often drink alcohol over past 12 mos
             FeatureColumn('Questionnaire', 'ALQ120Q', 
-                                 preproc_real, {'cutoff':365}),
-            # Vigorous work activity
-            FeatureColumn('Questionnaire', 'PAQ605', 
-                                 preproc_real, {'cutoff':2}),
-            FeatureColumn('Questionnaire', 'PAQ620', 
-                                 preproc_real, {'cutoff':2}),
-            FeatureColumn('Questionnaire', 'PAQ180', 
-                                 preproc_real, {'cutoff':4}),
-            FeatureColumn('Questionnaire', 'PAD615', 
-                                 preproc_real, {'cutoff':780}),
-            # Doctor told overweight (risk factor)
-            FeatureColumn('Questionnaire', 'MCQ160J', 
-                                 preproc_onehot, {'cutoff':2}),
-            # Sleep
-            FeatureColumn('Questionnaire', 'SLD010H', 
-                                 preproc_real, {'cutoff':12}),
-            # Smoking
+                                            preproc_real, {'cutoff':365}),
+
+            #ALQ120U - # days drink alcohol per wk, mo, yr
+            FeatureColumn('Questionnaire', 'ALQ120U', 
+                                            preproc_real, {'cutoff':3}),
+            #ALQ151 - Ever have 4/5 or more drinks every day?
+            FeatureColumn('Questionnaire', 'ALQ151', 
+                                            preproc_onehot, {'cutoff':2}),
+            #ALQ160 - # days have 4/5 or more drinks in 2 hrs
+            FeatureColumn('Questionnaire', 'ALQ160', 
+                                            preproc_real, {'cutoff':20}),
+            #AUQ054 - General condition of hearing
+            FeatureColumn('Questionnaire', 'AUQ054', 
+                                            preproc_real, {'cutoff':6}),
+            #AUQ060 - Hear a whisper from across a quiet room?
+            FeatureColumn('Questionnaire', 'AUQ060', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ070 - Hear normal voice across a quiet room?
+            FeatureColumn('Questionnaire', 'AUQ070', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ090 - Hear if spoken loudly to in better ear?
+            FeatureColumn('Questionnaire', 'AUQ090', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ100 - Difficult follow conversation if noise
+            FeatureColumn('Questionnaire', 'AUQ100', 
+                                            preproc_real, {'cutoff':5}),
+            #AUQ110 - Hearing cause frustration when talking?
+            FeatureColumn('Questionnaire', 'AUQ110', 
+                                            preproc_real, {'cutoff':5}),
+            #AUQ136 - Ever had 3 or more ear infections?
+            FeatureColumn('Questionnaire', 'AUQ136', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ138 - Ever had tube placed in ear?
+            FeatureColumn('Questionnaire', 'AUQ138', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUD148 - Hearing aid or Cochlear implant?
+            FeatureColumn('Questionnaire', 'AUD148', 
+                                            preproc_onehot, {'cutoff':3}),
+            #AUQ154 - Ever used assistive listening devices?
+            FeatureColumn('Questionnaire', 'AUQ154', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ250 - How long bothered by ringing, roaring
+            FeatureColumn('Questionnaire', 'AUQ250', 
+                                            preproc_real, {'cutoff':5}),
+            #AUQ260 - Bothered by ringing after loud sounds?
+            FeatureColumn('Questionnaire', 'AUQ260', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ270 - Bothered by ringing when going to sleep
+            FeatureColumn('Questionnaire', 'AUQ270', 
+                                            preproc_onehot, {'cutoff':2}),
+            #AUQ340 - How long exposed to loud noise at work?
+            FeatureColumn('Questionnaire', 'AUQ340', 
+                                            preproc_real, {'cutoff':7}),
+            #AUQ350 - Ever exposed to very loud noise at work?
+            FeatureColumn('Questionnaire', 'AUQ350', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ020 - Ever told you had high blood pressure
+            FeatureColumn('Questionnaire', 'BPQ020', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ030 - Told had high blood pressure - 2+ times
+            FeatureColumn('Questionnaire', 'BPQ030', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPD035 - Age told had hypertension
+            FeatureColumn('Questionnaire', 'BPD035', 
+                                            preproc_real, {'cutoff':80}),
+            #BPQ040A - Taking prescription for hypertension
+            FeatureColumn('Questionnaire', 'BPQ040A', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ050A - Now taking prescribed medicine for HBP
+            FeatureColumn('Questionnaire', 'BPQ050A', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ080 - Doctor told you - high cholesterol level
+            FeatureColumn('Questionnaire', 'BPQ080', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ090D - Told to take prescriptn for cholesterol
+            FeatureColumn('Questionnaire', 'BPQ090D', 
+                                            preproc_onehot, {'cutoff':2}),
+            #BPQ100D - Now taking prescribed medicine
+            FeatureColumn('Questionnaire', 'BPQ100D', 
+                                            preproc_onehot, {'cutoff':2}),
+            #CDQ001 - SP ever had pain or discomfort in chest
+            FeatureColumn('Questionnaire', 'CDQ001', 
+                                            preproc_onehot, {'cutoff':2}),
+            #CDQ006 - How soon is the pain relieved
+            FeatureColumn('Questionnaire', 'CDQ006', 
+                                            preproc_onehot, {'cutoff':2}),
+
+            #CDQ008 - Severe pain in chest more than half hour
+            FeatureColumn('Questionnaire', 'CDQ008', 
+                                            preproc_onehot, {'cutoff':2}),
+            #CDQ010 - Shortness of breath on stairs/inclines
+            FeatureColumn('Questionnaire', 'CDQ010', 
+                                            preproc_onehot, {'cutoff':2}),
+            #CBD121 - Money spent on eating out
+            FeatureColumn('Questionnaire', 'CBD121', 
+                                            preproc_real, {'cutoff':8400}),
+            #HSD010 - General health condition
+            FeatureColumn('Questionnaire', 'HSD010', 
+                                            preproc_real, {'cutoff':5}),
+            #HSQ500 - SP have head cold or chest cold
+            FeatureColumn('Questionnaire', 'HSQ500', 
+                                            preproc_onehot, {'cutoff':2}),
+            #HSQ510 - SP have stomach or intestinal illness?
+            FeatureColumn('Questionnaire', 'HSQ510', 
+                                            preproc_onehot, {'cutoff':2}),
+            #HSQ590 - Blood ever tested for HIV virus?
+            FeatureColumn('Questionnaire', 'HSQ590', 
+                                            preproc_onehot, {'cutoff':2}),
+            #DED031 - Skin reaction to sun after non-exposure
+            FeatureColumn('Questionnaire', 'DED031', 
+                                                preproc_real, {'cutoff':5}),
+            #DEQ034A - Stay in the shade?
+            FeatureColumn('Questionnaire', 'DEQ034A', 
+                                                preproc_real, {'cutoff':6}),
+            #DEQ034D - Use sunscreen?
+            FeatureColumn('Questionnaire', 'DEQ034D', 
+                                                preproc_real, {'cutoff':5}),
+            #DEQ038Q - # of times in past yr you had a sunburn
+            FeatureColumn('Questionnaire', 'DEQ038Q', 
+                                                preproc_real, {'cutoff':20}),
+            #DED120 - Minutes outdoors 9am - 5pm work day
+            FeatureColumn('Questionnaire', 'DED120', 
+                                                preproc_real, {'cutoff':480}),
+            #DED125 - Minutes outdoors 9am - 5pm not work day
+            FeatureColumn('Questionnaire', 'DED125', 
+                                                preproc_real, {'cutoff':480}),
+            #DIQ010 - Doctor told you have diabetes
+            FeatureColumn('Questionnaire', 'DIQ010', 
+                                                preproc_real, {'cutoff':3}),
+            #DID040 - Age when first told you had diabetes
+            FeatureColumn('Questionnaire', 'DID040', 
+                                                preproc_real, {'cutoff':80}),
+            #DIQ160 - Ever told you have prediabetes
+            FeatureColumn('Questionnaire', 'DIQ160', 
+                                                preproc_onehot, {'cutoff':2}),
+            #DIQ170 - Ever told have health risk for diabetes
+            FeatureColumn('Questionnaire', 'DIQ170', 
+                                                preproc_onehot, {'cutoff':2}),
+            #DIQ172 - Feel could be at risk for diabetes
+            FeatureColumn('Questionnaire', 'DIQ172', 
+                                                preproc_onehot, {'cutoff':2}),
+
+
+
+            #SLD012 - Sleep Hours
+            FeatureColumn('Questionnaire', 'SLD012', 
+                                            preproc_real, {'cutoff':14.5}),
+            # SMQ020 - Smoking
             FeatureColumn('Questionnaire', 'SMQ020', 
-                                 preproc_onehot, None),
-            FeatureColumn('Questionnaire', 'SMD030', 
-                                 preproc_real, {'cutoff':72}),
-            # Blood relatives with arthritis
-            FeatureColumn('Questionnaire', 'MCQ250D',
-                                 preproc_onehot, {'cutoff':2}),
-            # joint pain/aching/stiffness in past year
-            FeatureColumn('Questionnaire', 'MPQ010',
-                                 preproc_onehot, {'cutoff':2}),
-            # symptoms began only because of injury
-            FeatureColumn('Questionnaire', 'MPQ030',
-                                 preproc_onehot, {'cutoff':2}),
-            # how long experiencing pain
-            FeatureColumn('Questionnaire', 'MPQ110',
-                                 preproc_real, {'cutoff':4}),
+                                            preproc_onehot, None),
+
+
+            
         ]
         nhanes_dataset = NHANES(self.data_path, columns)
         df = nhanes_dataset.process()
