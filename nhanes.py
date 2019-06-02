@@ -89,8 +89,7 @@ class NHANES:
             df_proc.append(prepr_col)
         self.dataset = pd.concat(df_proc, axis=1)
         return self.dataset
-    
-    
+        
 # Preprocessing functions
 def preproc_onehot(df_col, args=None):
     return pd.get_dummies(df_col, prefix=df_col.name, prefix_sep='#')
@@ -98,6 +97,7 @@ def preproc_onehot(df_col, args=None):
 def preproc_real(df_col, args=None):
     if args is None:
         args={'cutoff':np.inf}
+    #print(df_col)
     # other answers as nan
     df_col[df_col > args['cutoff']] = np.nan
     # nan replaced by mean
@@ -144,6 +144,57 @@ class Dataset():
         
     def load_arthritis(self, opts=None):
         columns = [
+            #Demographics, Age in years at screening
+            FeatureColumn('Demographics', 'RIDAGEYR',
+                                            preproc_real, {'cutoff':80}),
+            #Demographics, Race/Hispanic
+            FeatureColumn('Demographics', 'RIDRETH3',
+                                            preproc_real, {'cutoff':7}),
+            #Demographics, Served active duty in the armed forces
+            FeatureColumn('Demographics', 'DMQMILIZ',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Served in a foreign country
+            FeatureColumn('Demographics', 'DMQADFC',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Country of birth
+            FeatureColumn('Demographics', 'DMDBORN4',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Citizenship status
+            FeatureColumn('Demographics', 'DMDCITZN',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Length of time in the US
+            FeatureColumn('Demographics', 'DMDYRSUS',
+                                            preproc_real, {'cutoff':9}),
+            #Demographics, Education level, Youth 6-19
+            FeatureColumn('Demographics', 'DMDEDUC3',
+                                            preproc_real, {'cutoff':66}),
+            #Demographics, Education level, Adults 20+
+            FeatureColumn('Demographics', 'DMDEDUC2',
+                                            preproc_real, {'cutoff':5}),
+            #Demographics, Education level, Language at SP interview
+            FeatureColumn('Demographics', 'SIALANG',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Education level, Language at Family Interview
+            FeatureColumn('Demographics', 'FIALANG',
+                                            preproc_onehot, {'cutoff':2}),
+            #Demographics, Total number of people in household
+            FeatureColumn('Demographics', 'DMDHHSIZ',
+                                            preproc_real, {'cutoff':7}),
+            #Demographics, Total number of children 5 years or younger in household
+            FeatureColumn('Demographics', 'DMDHHSZA',
+                                            preproc_real, {'cutoff':3}),
+            #Demographics, Total number of adults 60+ in household
+            FeatureColumn('Demographics', 'DMDHHSZE',
+                                            preproc_real, {'cutoff':3}),
+            #Demographics, Annual household income
+            FeatureColumn('Demographics', 'INDHHIN2',
+                                            preproc_real, {'cutoff':15}),
+            #Demographics, Annual family income
+            FeatureColumn('Demographics', 'INDFMIN2',
+                                            preproc_real, {'cutoff':15}),
+            #Demographics, Ratio of annual income to poverty
+            FeatureColumn('Demographics', 'INDFMPIR',
+                                            preproc_real, {'cutoff':5}),
             # TARGET: systolic BP average
             FeatureColumn('Questionnaire', 'MCQ220', 
                                     None, None), 
@@ -235,57 +286,7 @@ class Dataset():
             #Examination, Decayed teeth
             FeatureColumn('Examination', 'OHAROCDT',
                                             preproc_onehot, {'cutoff':2}),
-            #Demographics, Age in years at screening
-            FeatureColumn('Demographics', 'RIDAGEYR',
-                                            preproc_real, {'cutoff':80}),
-            #Demographics, Race/Hispanic
-            FeatureColumn('Demographics', 'RIDRETH3',
-                                            preproc_real, {'cutoff':7}),
-            #Demographics, Served active duty in the armed forces
-            FeatureColumn('Demographics', 'DMQMILIZ',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Served in a foreign country
-            FeatureColumn('Demographics', 'DMQADFC',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Country of birth
-            FeatureColumn('Demographics', 'DMDBORN4',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Citizenship status
-            FeatureColumn('Demographics', 'DMDCITZN',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Length of time in the US
-            FeatureColumn('Demographics', 'DMDYRSUS',
-                                            preproc_real, {'cutoff':9}),
-            #Demographics, Education level, Youth 6-19
-            FeatureColumn('Demographics', 'DMDEDUC3',
-                                            preproc_real, {'cutoff':66}),
-            #Demographics, Education level, Adults 20+
-            FeatureColumn('Demographics', 'DMDEDUC2',
-                                            preproc_real, {'cutoff':5}),
-            #Demographics, Education level, Language at SP interview
-            FeatureColumn('Demographics', 'SIALANG',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Education level, Language at Family Interview
-            FeatureColumn('Demographics', 'FIALANG',
-                                            preproc_onehot, {'cutoff':2}),
-            #Demographics, Total number of people in household
-            FeatureColumn('Demographics', 'DMDHHSIZ',
-                                            preproc_real, {'cutoff':7}),
-            #Demographics, Total number of children 5 years or younger in household
-            FeatureColumn('Demographics', 'DMDHHSZA',
-                                            preproc_real, {'cutoff':3}),
-            #Demographics, Total number of adults 60+ in household
-            FeatureColumn('Demographics', 'DMDHHSZE',
-                                            preproc_real, {'cutoff':3}),
-            #Demographics, Annual household income
-            FeatureColumn('Demographics', 'INDHHIN2',
-                                            preproc_real, {'cutoff':15}),
-            #Demographics, Annual family income
-            FeatureColumn('Demographics', 'INDFMIN2',
-                                            preproc_real, {'cutoff':15}),
-            #Demographics, Ratio of annual income to poverty
-            FeatureColumn('Demographics', 'INDFMPIR',
-                                            preproc_real, {'cutoff':5}),
+
             #Questionnaire
             #ALQ101 - Had at least 12 alcohol drinks/1 yr?
             FeatureColumn('Questionnaire', 'ALQ101', 
@@ -452,7 +453,9 @@ class Dataset():
             
         ]
         nhanes_dataset = NHANES(self.data_path, columns)
+        #print(nhanes_dataset)
         df = nhanes_dataset.process()
+        #print(df)
         fe_cols = df.drop(['MCQ220'], axis=1)
         features = fe_cols.values
         target = df['MCQ220'].values
@@ -463,8 +466,8 @@ class Dataset():
 
         # Put each person in the corresponding bin
         targets = np.zeros(target.shape[0])
-        targets[target == 1] = 0 # yes arthritis
-        targets[target == 2] = 1 # no arthritis
+        targets[target == 1] = 0 # yes cancer
+        targets[target == 2] = 1 # no cancer
 
        # random permutation
         perm = np.random.permutation(targets.shape[0])
