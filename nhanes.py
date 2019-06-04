@@ -94,6 +94,7 @@ class NHANES:
 def preproc_onehot(df_col, args=None):
     return pd.get_dummies(df_col, prefix=df_col.name, prefix_sep='#')
 
+#Here I use mean std normalization
 def preproc_real(df_col, args=None):
     if args is None:
         args={'cutoff':np.inf}
