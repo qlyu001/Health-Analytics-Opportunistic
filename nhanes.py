@@ -467,8 +467,8 @@ class Dataset():
 
         # Put each person in the corresponding bin
         targets = np.zeros(target.shape[0])
-        targets[target == 1] = 0 # yes cancer
-        targets[target == 2] = 1 # no cancer
+        targets[target == 1] = 1 # yes cancer
+        targets[target == 2] = 0 # no cancer
 
        # random permutation
         perm = np.random.permutation(targets.shape[0])
